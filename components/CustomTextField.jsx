@@ -1,4 +1,4 @@
-import { StyleSheet, TextInput, View } from 'react-native';
+import { Keyboard, StyleSheet, TextInput, View } from 'react-native';
 import React from 'react';
 import ArrowLeft from '../assets/svgs/arrowleft'; // Import your SVG component
 import Id from '../assets/svgs/id';

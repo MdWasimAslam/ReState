@@ -2,6 +2,10 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Tabs, Redirect } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import Account from "../../assets/svgs/account";
+import Map from "../../assets/svgs/map";
+import Heart from "../../assets/svgs/heart";
+import Home from "../../assets/svgs/home";
 
 // const TabIcon = ({ icon, color, name, focused }) => {
 //   return (
@@ -32,6 +36,8 @@ const TabsLayout = () => {
       <Tabs
         screenOptions={{
           headerShown: false,
+          tabBarStyle: styles.tabbar,
+          tabBarHideOnKeyboard: true,
         }}
         initialRouteName="(tabs)/home"
       >
@@ -39,10 +45,11 @@ const TabsLayout = () => {
           name="(tabs)/home"
           options={{
             headerShown: false,
-            title: "home",
-            // tabBarIcon: ({ color, focused }) => (
-            //   <></>
-            // ),
+            title: "Home",
+            tabBarLabelStyle:{fontSize:13},
+            tabBarIcon: ({ color, focused }) => (
+              <Home color={color} height={24} width={24}/>
+            )
           }}
         />
 
@@ -50,30 +57,34 @@ const TabsLayout = () => {
           name="(tabs)/favourites"
           options={{
             headerShown: false,
-            title: "favourites",
-            // tabBarIcon: ({ color, focused }) => (
-            //   <></>
-            // ),
+            title: "Favourites",
+            tabBarLabelStyle:{fontSize:13},
+            tabBarIcon: ({ color, focused }) => (
+            <Heart color={color} height={24} width={24}/>
+            ),
           }}
         />
         <Tabs.Screen
           name="(tabs)/map"
           options={{
             headerShown: false,
-            title: "map",
-            // tabBarIcon: ({ color, focused }) => (
-            //   <></>
-            // ),
+            title: "Map",
+            tabBarLabelStyle:{fontSize:13},
+
+            tabBarIcon: ({ color, focused }) => (
+              <Map color={color} height={24} width={24} />
+            ),
           }}
         />
         <Tabs.Screen
           name="(tabs)/profile"
           options={{
             headerShown: false,
-            title: "profile",
-            // tabBarIcon: ({ color, focused }) => (
-            //   <></>
-            // ),
+            title: "Profile",
+            tabBarLabelStyle:{fontSize:13},
+            tabBarIcon: ({ color, focused }) => (
+              <Account color={color} height={24} width={24} />
+            ),
           }}
         />
       </Tabs>
@@ -83,4 +94,18 @@ const TabsLayout = () => {
 
 export default TabsLayout;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  tabbar:{
+    borderTopWidth:1,
+    borderTopColor:'#7D7D7D',
+    height:57,
+    // position:'absolute',
+    // bottom:15,
+    // marginHorizontal:20,
+    // borderRadius:15,
+    // elevation:20,
+    // borderWidth:2,
+    // borderColor:'white'
+
+  }
+});

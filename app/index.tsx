@@ -1,14 +1,14 @@
 import {  Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import CustomButton from '../components/CustomButton';
 import getstarted from '../assets/images/getstarted.png';
 import  logoFull from '../assets/images/logo-full.png'; 
-import { router } from 'expo-router';
+import { router,useFocusEffect,usePathname } from 'expo-router';
 import {getCurrentUser} from '../api/users';
 
 const { height, width } = Dimensions.get('window');
 const Index = () => {
-  
+  const pathname = usePathname();
   const handleOnboarding = () => {
     router.push('/onboarding');
   }
@@ -18,13 +18,28 @@ const Index = () => {
     return res;
   };
 
-  useEffect(() => {
-    getUserData().then((res) => {
-      if(res?.$id) {
-        router.push('/home');
-      }
-    });
-  }, [])
+
+  useFocusEffect(
+    useCallback(() => {
+      const onFocused = async () => {
+        try {
+          const res = await getUserData();
+          if (res?.$id) {
+            router.push(`/home`);
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      };
+      onFocused();
+
+      return () => {
+        // Cleanup logic (if any)
+      };
+    }, [])
+  );
+
+
   
   
   return (

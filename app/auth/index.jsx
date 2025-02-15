@@ -8,22 +8,26 @@ import {
     Platform,
     ScrollView,
     Alert,
+    ToastAndroid,
   } from "react-native";
   import React, { useState } from "react";
   import { SafeAreaView } from "react-native-safe-area-context";
   import logoFull from "../../assets/images/logo-full.png";
   import CustomTextField from "../../components/CustomTextField";
   import CustomButton from "../../components/CustomButton";
-import { createUser, logIn } from "../../api/users";
+import { createUser, getCurrentUser, logIn } from "../../api/users";
 import { router } from "expo-router";
-  
+import { useGlobalContext } from "../../context/globalProvider";
+
   const AuthScreen = () => {
     const [isSignUp, setIsSignUp] = useState(false);
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-  
+    const { setUser, setIsLoggedIn } = useGlobalContext();
+    const [isSubmitting, setisSubmitting] = useState(false)
     const handleSubmit = async () => {
+     
       if(isSignUp){
         const result = await createUser(email, password, username);
         if(result){
@@ -35,12 +39,24 @@ import { router } from "expo-router";
         }
         
       }else{
-        // const result = await logIn(email, password);
-        // if(result){
-        //     Alert.alert("Signed In Successfully");
-            
-        // }
-        router.push('/home');
+        if (!email ||!password) {
+          ToastAndroid.show("Please fill all fields", ToastAndroid.SHORT);
+          return;
+        }
+        setisSubmitting(true);
+        try {
+          const login = await logIn(email,password);
+          const result = await getCurrentUser();
+          setUser(result);
+          setIsLoggedIn(true);
+          ToastAndroid.show("Logged in successfully", ToastAndroid.SHORT);
+          router.replace("/home");
+        } catch (error) {
+          ToastAndroid.show(error.message, ToastAndroid.SHORT);
+        } finally {
+          setisSubmitting(false);
+        }
+    
       }
     };
   
@@ -100,6 +116,7 @@ import { router } from "expo-router";
               <TouchableOpacity
                 style={styles.buttonContainer}
                 onPress={handleSubmit}
+                disabled={isSubmitting}
               >
                 <CustomButton title={isSignUp ? "Create Account" : "Sign In"} />
               </TouchableOpacity>
