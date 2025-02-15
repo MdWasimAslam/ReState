@@ -10,21 +10,18 @@ import {
   
   export const appwriteConfig = {
     endpoint: "https://cloud.appwrite.io/v1",
-    project: "6781741e0030c2d89651",
+    projectId: "67b07c7d000bfefc54eb",
     locale: "en",
-    platform: "com.jsm.aora",
-    databaseId: "67817550000a1c0dfe51",
-    userCollectionId: "6781756200159a54f2ee",
-    videoCollectionId: "6781757d0039e3b6baab",
-    storageId: "6781769b0024ddf9e3d1",
+    platform: "com.wasim.aslam2897.ReState",
+    databaseId: "67b07d23000098265b45",
+    userCollectionId: "67b07d320009476f7e32",
   };
   
   // Init your React Native SDK
-  const client = new Client();
+  const client = new Client()
+      .setProject(appwriteConfig.projectId)
+      .setPlatform(appwriteConfig.platform);
   
-  client
-    .setEndpoint(appwriteConfig.endpoint) // Your Appwrite Endpoint
-    .setProject(appwriteConfig.project); // Your project ID
   
   const account = new Account(client);
   const avatars = new Avatars(client);
@@ -32,6 +29,7 @@ import {
   const storage = new Storage(client);
   
   export const createUser = async (email, password, username) => {
+    console.log("createUser", email, password, username);
     try {
       const defaultAvatarUrl =
         "https://avatar.iran.liara.run/public/boy?username=Ash";
@@ -40,7 +38,7 @@ import {
       const userId = ID.unique();
       const user = await account.create(ID.unique(), email, password, username);
       if (!user) {
-        throw new Error("Error creating Authuser");
+        console.log("Error creating user in auth");
       }
   
       //----------- Create a new user in Database ------------
@@ -59,30 +57,40 @@ import {
       );
   
       if (!createUser) {
-        throw new Error("Error creating user");
+        console.log("Error creating user in database");
       }
   
       return createUser;
     } catch (error) {
-      throw new Error(error);
+      console.log("Error creating user", error);
     }
   };
   
   export async function logIn(email, password) {
-    const checkUser = await databases.listDocuments(
-      appwriteConfig.databaseId,
-      appwriteConfig.userCollectionId,
-      [Query.equal("email", email), Query.equal("password", password)]
-    );
+    try {
+    let checkUser;
+    try {
+         checkUser = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.userCollectionId,
+            [Query.equal("email", email), Query.equal("password", password)]
+          );
+    } catch (error) {
+            console.log("Error fetching user", error);
+    }
   
     if (!checkUser) {
-      throw new Error("Error creating user");
+      console.log("Error fetching user");
     }
   
     //create user session
     const userSession = await account.createEmailPasswordSession(email, password);
-  
+    console.log("userSession", userSession);
+    console.log("checkUser", checkUser);
     return checkUser;
+    } catch (error) {
+        console.log("Error creating user", error);
+    }
   }
   
   export const getCurrentUser = async () => {
