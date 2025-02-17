@@ -1,9 +1,10 @@
-import { Dimensions, Image, Platform, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Image, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import Heart from "../assets/svgs/heart";
 import Map from "../assets/svgs/map";
 import Bed from "../assets/svgs/bed";
 import Area from "../assets/svgs/area";
+import { router } from "expo-router";
 
 const { width, height } = Dimensions.get("window");
 
@@ -12,12 +13,17 @@ const ListingStrip = ({ item }) => {
     if (typeof number !== "number" || isNaN(number)) {
       return "Invalid number";
     }
-
-    // Format the number into Indian currency format
     return `${number.toLocaleString("en-IN")}`;
   };
+
+  const NavigateToListingScreen=(item)=>{
+      router.push({
+        pathname:'screens/listingDetails',
+        params:{data:JSON.stringify(item)}
+      })
+  }
   return (
-    <View>
+    <TouchableOpacity onPress={()=>{NavigateToListingScreen(item)}}>
       {/* Image container */}
       <View style={styles.container}>
         <View>
@@ -48,7 +54,7 @@ const ListingStrip = ({ item }) => {
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
