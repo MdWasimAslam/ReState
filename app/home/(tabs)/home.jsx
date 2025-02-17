@@ -1,4 +1,5 @@
-import { Image, Keyboard, StyleSheet, Text, View } from "react-native";
+
+import { FlatList, Image, Keyboard, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useGlobalContext } from "../../../context/globalProvider";
@@ -9,11 +10,10 @@ import ListingHorizontal from "../../../components/ListingHorizontal";
 import ListingVertical from "../../../components/ListingVertical";
 import Search from "../../../components/Search";
 
-const home = () => {
+const Home = () => {
   const [selectedOption, setSelectedOption] = useState("Recommended");
   const [isKeyboardVisible, setKeyboardVisible] = React.useState(false);
 
-  // Add event listeners for keyboard visibility
   React.useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -21,16 +21,13 @@ const home = () => {
         setKeyboardVisible(true);
       }
     );
-
     const keyboardDidHideListener = Keyboard.addListener(
       "keyboardDidHide",
       () => {
-        //remove this as the search will require the complete screen
         setKeyboardVisible(false);
       }
     );
 
-    // Clean up listeners
     return () => {
       keyboardDidShowListener.remove();
       keyboardDidHideListener.remove();
@@ -48,49 +45,50 @@ const home = () => {
   const changeSelectedOption = (index) => {
     setSelectedOption(index);
   };
-  return (
-    <SafeAreaView>
-      {/* Header info */}
-      <View style={styles.headerContainer}>
-        <View>
-          <Text style={styles.heading}>Let's find your</Text>
-          <Text style={styles.subheading}>Favourite Stay</Text>
-        </View>
-        <View>
-          {user?.avatar && (
-            <Image source={{ uri: user?.avatar }} style={styles.avatar} />
-          )}
-        </View>
-      </View>
 
-      {/* Search & filter */}
-      <View style={styles.searchContainer}>
-        <View style={{ width: "80%" }}>
-          <CustomTextField
-            placeholder="Search by address, city or zip"
-            icon="search"
-          />
-        </View>
-        <View style={styles.filterWrapper}>
-          <Filter color="#fff" />
-        </View>
-      </View>
-
-      {/* Hide Home Data when clicked on search */}
-      {!isKeyboardVisible && (
-        <>
-          {/* Horizontal Option */}
+  const renderItem = ({ item }) => {
+    switch (item.type) {
+      case "header":
+        return (
+          <View style={styles.headerContainer}>
+            <View>
+              <Text style={styles.heading}>Let's find your</Text>
+              <Text style={styles.subheading}>Favourite Stay</Text>
+            </View>
+            <View>
+              {user?.avatar && (
+                <Image source={{ uri: user?.avatar }} style={styles.avatar} />
+              )}
+            </View>
+          </View>
+        );
+      case "search":
+        return (
+          <View style={styles.searchContainer}>
+            <View style={{ width: "80%" }}>
+              <CustomTextField
+                placeholder="Search by address, city or zip"
+                icon="search"
+              />
+            </View>
+            <View style={styles.filterWrapper}>
+              <Filter color="#fff" />
+            </View>
+          </View>
+        );
+      case !isKeyboardVisible && "horizontalOptions":
+        return (
           <HorizontalOption
             options={horizontalOptionsData}
             changeSelectedOption={changeSelectedOption}
             selectedOption={selectedOption}
           />
-
-          {/* Listings Horizontal */}
-          <ListingHorizontal selectedOption={selectedOption} />
-
-          {/* You may also like */}
-          <View style={{ height: 400 }}>
+        );
+      case !isKeyboardVisible && "listingHorizontal":
+        return <ListingHorizontal selectedOption={selectedOption} />;
+      case !isKeyboardVisible && "youMayAlsoLike":
+        return (
+          <>
             <Text
               style={{
                 fontSize: 25,
@@ -103,20 +101,36 @@ const home = () => {
               You may also like
             </Text>
             <ListingVertical selectedOption={selectedOption} />
-          </View>
-        </>
-      )}
+          </>
+        );
+      case isKeyboardVisible && 'searchComponent':
+        return <Search />;
+      default:
+        return null;
+    }
+  };
 
-      {
-        isKeyboardVisible && <>
-        <Search />
-        </>
-      }
+  const data = [
+    { type: "header" },
+    { type: "search" },
+    { type: "horizontalOptions" },
+    { type: "listingHorizontal" },
+    { type: "youMayAlsoLike" },
+    { type: "searchComponent" },
+  ];
+
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+        <FlatList
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index.toString()}
+        />
     </SafeAreaView>
   );
 };
 
-export default home;
+export default Home;
 
 const styles = StyleSheet.create({
   heading: {

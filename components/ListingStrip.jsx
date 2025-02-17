@@ -1,9 +1,11 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Image, Platform, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import Heart from "../assets/svgs/heart";
 import Map from "../assets/svgs/map";
 import Bed from "../assets/svgs/bed";
 import Area from "../assets/svgs/area";
+
+const { width, height } = Dimensions.get("window");
 
 const ListingStrip = ({ item }) => {
   const formatIndianCurrency = (number) => {
@@ -37,11 +39,11 @@ const ListingStrip = ({ item }) => {
           <View style={styles.ameneties}>
             <Area height={20} width={20} color="#7D7D7D" />
             <Text style={styles.amenetiesText}>{formatIndianCurrency(item.area)} Sqft</Text>
-                <View style={{marginLeft: 5}}/>
+                <View style={{marginLeft: Platform.OS === "ios" ? 0 : 5}}/>
             <Bed height={20} width={20} color="#7D7D7D" />
             <Text style={styles.amenetiesText}>{item.bedrooms}</Text>
             
-            <View style={{marginLeft: 8}}/>
+            <View style={{marginLeft: Platform.OS === "ios" ? 0 : 5}}/>
             <View><Text style={styles.rate}>₹ {formatIndianCurrency(item.rate)}</Text></View>
           </View>
         </View>
@@ -84,12 +86,12 @@ const styles = StyleSheet.create({
     color: "#0061FF",
   },
   title: {
-    fontSize: 19,
+    fontSize: Platform.OS === "ios" ? 15 : 17,
     fontWeight: "bold",
     marginBottom: 10,
   },
   rate: {
-    fontSize: 17,
+    fontSize: Platform.OS === "ios" ? 12 : 17,
     fontWeight: "bold",
     color: "#0061FF",
   },
@@ -97,10 +99,10 @@ const styles = StyleSheet.create({
     marginTop: 0,
     flexDirection: "row",
     alignItems: "center",
-    gap: 5,
+    gap:3 ,
   },
   address: {
-    fontSize: 15,
+    fontSize: Platform.OS === "ios" ? 13 : 15,
     color: "#7D7D7D",
   },
   ameneties: {
@@ -110,7 +112,7 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   amenetiesText: {
-    fontSize: 13,
+    fontSize: Platform.OS === "ios" ? 10 : 13,
     color: "#7D7D7D",
   },
   starText: {

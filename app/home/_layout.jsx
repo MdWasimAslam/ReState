@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Platform, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Tabs, Redirect } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   tabbar:{
     borderTopWidth:1,
     borderTopColor:'#7D7D7D',
-    height:57,
+    height:Platform.OS === 'ios' ? 75 : 60,
     // position:'absolute',
     // bottom:15,
     // marginHorizontal:20,
