@@ -3,7 +3,7 @@ import React from 'react'
 
 const ListingGallery = () => {
   return (
-    <View>
+    <View style={{height:400}}>
       <Text>ListingGallery</Text>
     </View>
   )

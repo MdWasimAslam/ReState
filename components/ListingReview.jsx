@@ -3,7 +3,7 @@ import React from 'react'
 
 const ListingReview = () => {
   return (
-    <View>
+    <View style={{height:400}}>
       <Text>ListingReview</Text>
     </View>
   )

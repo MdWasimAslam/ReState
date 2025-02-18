@@ -1,6 +1,9 @@
 import {
+  Alert,
   Dimensions,
   Image,
+  Platform,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -9,7 +12,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useGlobalSearchParams } from "expo-router";
+import { router, useGlobalSearchParams } from "expo-router";
 import ArrowLeft from "../../assets/svgs/arrowleft";
 import Heart from "../../assets/svgs/heart";
 import Share from "../../assets/svgs/share";
@@ -25,11 +28,10 @@ const listingDetails = () => {
   const listing = JSON.parse(data.data);
 
 
-
   return (
     <SafeAreaView>
       {/* Image Container  */}
-      <ScrollView>
+      <ScrollView >
         <View>
           <Image
             source={{ uri: listing?.coverImg || "" }}
@@ -40,7 +42,9 @@ const listingDetails = () => {
         {/* header buttons */}
         <View style={styles.header}>
           <View style={styles.headerAction}>
+            <TouchableOpacity onPress={() => router.back()}>
             <ArrowLeft color="#000" height={25} width={25} />
+            </TouchableOpacity>
           </View>
 
           <View style={styles.headerActionContainer}>
@@ -120,6 +124,14 @@ const listingDetails = () => {
           </View>
         )}
       </ScrollView>
+
+      {/* Book Section */}
+      <TouchableOpacity onPress={()=>{Alert.alert('Booking Done')}}>
+      <View style={styles.bookingContainer}>
+        <Text style={styles.bookText}>Book Now</Text>
+      </View>
+      </TouchableOpacity>
+
     </SafeAreaView>
   );
 };
@@ -127,15 +139,29 @@ const listingDetails = () => {
 export default listingDetails;
 
 const styles = StyleSheet.create({
+  bookingContainer: {
+    backgroundColor: "#0061FF",
+    height: 60,
+    alignItems: "center",
+    justifyContent: "center",
+    position:'absolute',
+    bottom:0,
+    width:'100%'
+  },
+  bookText: {
+    color: "#fff",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
   activeTab: {
     color: "#0061FF",
     paddingVertical: 7,
-    fontSize: 20,
+    fontSize: Platform.OS === 'ios' ? 15 : 20,
     fontWeight: "bold",
     width: width / 3,
     alignItems: "center",
     justifyContent: "center",
-    borderBottomWidth: 5,
+    borderBottomWidth: 3,
     borderBottomColor: "#0061FF",
     alignContent: "center",
     paddingLeft: 25,
@@ -143,8 +169,8 @@ const styles = StyleSheet.create({
   inActiveTab: {
     color: "#7D7D7D",
     paddingVertical: 7,
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: Platform.OS === 'ios' ? 15 : 20,
+    // fontWeight: "bold",
     width: width / 3,
     alignItems: "center",
     justifyContent: "center",
