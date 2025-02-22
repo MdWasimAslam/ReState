@@ -1,4 +1,12 @@
-import { Dimensions, Image, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Dimensions,
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React from "react";
 import Heart from "../assets/svgs/heart";
 import Map from "../assets/svgs/map";
@@ -16,14 +24,18 @@ const ListingStrip = ({ item }) => {
     return `${number.toLocaleString("en-IN")}`;
   };
 
-  const NavigateToListingScreen=(item)=>{
-      router.push({
-        pathname:'screens/listingDetails',
-        params:{data:JSON.stringify(item)}
-      })
-  }
+  const NavigateToListingScreen = (item) => {
+    router.push({
+      pathname: "screens/listingDetails",
+      params: { data: JSON.stringify(item) },
+    });
+  };
   return (
-    <TouchableOpacity onPress={()=>{NavigateToListingScreen(item)}}>
+    <TouchableOpacity
+      onPress={() => {
+        NavigateToListingScreen(item);
+      }}
+    >
       {/* Image container */}
       <View style={styles.container}>
         <View>
@@ -44,13 +56,19 @@ const ListingStrip = ({ item }) => {
 
           <View style={styles.ameneties}>
             <Area height={20} width={20} color="#7D7D7D" />
-            <Text style={styles.amenetiesText}>{formatIndianCurrency(item.area)} Sqft</Text>
-                <View style={{marginLeft: Platform.OS === "ios" ? 0 : 5}}/>
+            <Text style={styles.amenetiesText}>
+              {formatIndianCurrency(item.area)} Sqft
+            </Text>
+            <View style={{ marginLeft: Platform.OS === "ios" ? 0 : 5 }} />
             <Bed height={20} width={20} color="#7D7D7D" />
             <Text style={styles.amenetiesText}>{item.bedrooms}</Text>
-            
-            <View style={{marginLeft: Platform.OS === "ios" ? 0 : 5}}/>
-            <View><Text style={styles.rate}>₹ {formatIndianCurrency(item.rate)}</Text></View>
+
+            <View style={{ marginLeft: Platform.OS === "ios" ? 0 : 5 }} />
+            <View>
+              <Text style={styles.rate}>
+                ₹ {formatIndianCurrency(item.rate)}
+              </Text>
+            </View>
           </View>
         </View>
       </View>
@@ -105,7 +123,7 @@ const styles = StyleSheet.create({
     marginTop: 0,
     flexDirection: "row",
     alignItems: "center",
-    gap:3 ,
+    gap: 3,
   },
   address: {
     fontSize: Platform.OS === "ios" ? 13 : 15,
@@ -124,5 +142,5 @@ const styles = StyleSheet.create({
   starText: {
     fontSize: 13,
     color: "#7D7D7D",
-  }
+  },
 });

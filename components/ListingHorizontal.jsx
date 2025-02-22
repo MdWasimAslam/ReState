@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, View, ActivityIndicator } from "react-native";
+import { FlatList, StyleSheet, View, ActivityIndicator, Touchable, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import {
   getAllListings,
@@ -7,6 +7,7 @@ import {
   getAllListingsByTopRating,
 } from "../api/listings";
 import ListingCard from "./ListingCard";
+import { router } from "expo-router";
 
 const ListingHorizontal = ({ selectedOption }) => {
   const [listing, setListing] = useState([]);
@@ -51,6 +52,13 @@ const ListingHorizontal = ({ selectedOption }) => {
     </View>
   );
 
+  const goToListingDetails = (item) => {
+    router.push({
+      pathname: "screens/listingDetails",
+      params: { data: JSON.stringify(item) },
+    });
+  };
+
   return (
     <View style={styles.container}>
       {loading ? (
@@ -61,9 +69,11 @@ const ListingHorizontal = ({ selectedOption }) => {
           showsHorizontalScrollIndicator={false}
           data={listing}
           renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => goToListingDetails(item)}>
             <View style={styles.cardContainer}>
               <ListingCard item={item} />
             </View>
+            </TouchableOpacity>
           )}
         />
       )}
@@ -85,20 +95,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   skeletonCard: {
-    width: 200, 
+    width: 200,
     marginRight: 20,
   },
   skeletonImage: {
-    width: 200, 
-    height: 140, 
+    width: 200,
+    height: 140,
     backgroundColor: "#e0e0e0",
     borderRadius: 8,
-    marginBottom: 12, 
+    marginBottom: 12,
   },
   skeletonText: {
-    height: 16, 
+    height: 16,
     backgroundColor: "#e0e0e0",
     borderRadius: 4,
-    marginBottom: 8, 
+    marginBottom: 8,
   },
 });

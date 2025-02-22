@@ -1,5 +1,12 @@
-
-import { FlatList, Image, Keyboard, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  Image,
+  Keyboard,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useGlobalContext } from "../../../context/globalProvider";
@@ -103,7 +110,7 @@ const Home = () => {
             <ListingVertical selectedOption={selectedOption} />
           </>
         );
-      case isKeyboardVisible && 'searchComponent':
+      case isKeyboardVisible && "searchComponent":
         return <Search />;
       default:
         return null;
@@ -113,19 +120,21 @@ const Home = () => {
   const data = [
     { type: "header" },
     { type: "search" },
+    { type: "searchComponent" },
     { type: "horizontalOptions" },
     { type: "listingHorizontal" },
     { type: "youMayAlsoLike" },
-    { type: "searchComponent" },
   ];
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-        <FlatList
-          data={data}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => index.toString()}
-        />
+    <SafeAreaView
+      style={{ flex: 1, paddingBottom: Platform.OS === "ios" ? -35 : 0 }}
+    >
+      <FlatList
+        data={data}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => index.toString()}
+      />
     </SafeAreaView>
   );
 };

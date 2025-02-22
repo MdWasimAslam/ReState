@@ -35,7 +35,7 @@ const MiniWidget = (props) => {
   };
 
   return (
-    <View style={styles.widget}>
+    <View style={styles.widget} key={props?.keys}>
       {icons[props?.title]}
       <Text >{props?.title}</Text>
     </View>

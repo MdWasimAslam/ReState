@@ -20,7 +20,7 @@ const ListingDescription = (props) => {
   };
 
   return (
-    <View style={{marginBottom:60}}>
+    <View style={{ marginBottom: 60 }}>
       {/* Widgets */}
       <View
         style={{
@@ -100,14 +100,11 @@ const ListingDescription = (props) => {
       {/* Ameneties */}
       <View
         style={{ marginHorizontal: 10, flexDirection: "row", flexWrap: "wrap" }}
+        key={String(props.data?.amenties)} // Better key for parent (optional)
       >
-        {props?.data?.amenties?.map((item, index) => {
-          return (
-            <>
-              <MiniWidget title={item} key={index} />
-            </>
-          );
-        })}
+        {props?.data?.amenties?.map((item, index) => (
+          <MiniWidget title={item} key={item} />
+        ))}
       </View>
 
       {/* Address */}
@@ -155,8 +152,6 @@ const ListingDescription = (props) => {
 
         <Image source={MapView} style={{ width: "100%", borderRadius: 10 }} />
       </View>
-
-
     </View>
   );
 };

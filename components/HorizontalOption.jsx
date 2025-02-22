@@ -1,7 +1,17 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React from "react";
 
-const HorizontalOption = ({ options, changeSelectedOption, selectedOption }) => {
+const HorizontalOption = ({
+  options,
+  changeSelectedOption,
+  selectedOption,
+}) => {
   const currentOption = (item) => {
     changeSelectedOption(item);
   };

@@ -7,26 +7,7 @@ import Map from "../../assets/svgs/map";
 import Heart from "../../assets/svgs/heart";
 import Home from "../../assets/svgs/home";
 
-// const TabIcon = ({ icon, color, name, focused }) => {
-//   return (
-//     <View className="items-center justify-center gap-2" style={{ width: 60 }}>
-//       <Image
-//         source={icon}
-//         resizeMode="contain"
-//         tintColor={color}
-//         className="w-6 h-6"
-//       />
-//       <Text
-//         className={`${
-//           focused ? "font-psemibold" : "font-pregular"
-//         } text-xs text-center`}
-//         style={{ color: color }}
-//       >
-//         {name}
-//       </Text>
-//     </View>
-//   );
-// };
+
 
 const TabsLayout = () => {
   return (
@@ -96,9 +77,10 @@ export default TabsLayout;
 
 const styles = StyleSheet.create({
   tabbar:{
-    borderTopWidth:1,
-    borderTopColor:'#7D7D7D',
+    // borderTopWidth:1,
+    // borderTopColor:'#7D7D7D',
     height:Platform.OS === 'ios' ? 75 : 60,
+
     // position:'absolute',
     // bottom:15,
     // marginHorizontal:20,

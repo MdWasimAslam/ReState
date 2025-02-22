@@ -52,7 +52,7 @@ const ListingVertical = ({}) => {
         <FlatList
           showsVerticalScrollIndicator={false} // Use vertical scroll indicator
           data={listing}
-          keyExtractor={(item) => item.listingId.toString()} // Ensure each item has a unique key
+          keyExtractor={(item) => item.listingId.toString()}
           renderItem={({ item }) => (
             <View style={styles.cardContainer}>
               <ListingStrip item={item} />
@@ -98,6 +98,6 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   flatListContent: {
-    paddingBottom: 80, // Add padding to avoid the tab bar hiding the last item
+    paddingBottom: 80, 
   },
 });
