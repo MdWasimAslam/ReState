@@ -4,14 +4,13 @@ import Heart from "../assets/svgs/heart";
 import Map from "../assets/svgs/map";
 
 const ListingCard = ({ item }) => {
-    const formatIndianCurrency = (number) => {
-        if (typeof number !== 'number' || isNaN(number)) {
-          return 'Invalid number';
-        }
-      
-        // Format the number into Indian currency format
-        return `₹ ${number.toLocaleString('en-IN')}`;
-      };
+  const formatIndianCurrency = (number) => {
+    if (typeof number !== "number" || isNaN(number)) {
+      return "Invalid number";
+    }
+    return `₹ ${number.toLocaleString("en-IN")}`;
+  };
+
   return (
     <View>
       {/* Image container */}
@@ -23,10 +22,15 @@ const ListingCard = ({ item }) => {
       <View style={styles.card}>
         <View>
           <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.rate}> {formatIndianCurrency(item.rate)} / Night</Text>
+          <Text style={styles.rate}>
+            {" "}
+            {formatIndianCurrency(item.rate)} / Night
+          </Text>
           <View style={styles.addressContainer}>
             <Map height={12} width={12} />
-            <Text style={styles.address}>{item.address}</Text>
+            <Text numberOfLines={1} style={styles.address}>
+              {item.address}
+            </Text>
           </View>
         </View>
         <View style={styles.heartContainer}>
@@ -63,6 +67,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     color: "#7D7D7D",
+    width: 150,
   },
   addressContainer: {
     gap: 5,
@@ -75,12 +80,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   title: {
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: "bold",
     marginBottom: 5,
   },
-  heartContainer: {
-    
-    
-  },
+  heartContainer: {},
 });

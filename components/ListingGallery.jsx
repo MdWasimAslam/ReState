@@ -1,4 +1,10 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import React from "react";
 
 const ListingGallery = () => {
@@ -49,10 +55,11 @@ const ListingGallery = () => {
     "https://www.nichiha.com/uploads/blog/what-is-the-best-siding-material-for-beach-houses-and-coastal-homes/Nichiha-Residential-ConcreteSeries-DesignerSeries-EmpireBlock-IndustrialBlock-Illumination-Modern.jpg?t=1660157219",
   ];
 
-  //write a function that will genreate random numbers between 0 and 10
   const randomNum = () => {
     return Math.floor(Math.random() * imageUrl.length);
   };
+
+  const { height, width } = useWindowDimensions();
 
   return (
     <View style={{ flex: 1 }}>
@@ -94,11 +101,11 @@ const styles = StyleSheet.create({
   },
   imageRow: {
     justifyContent: "space-between",
-    marginBottom: 10, // Optional: Adds spacing between rows
+    marginBottom: 10,
   },
   image: {
-    width: 180,
-    height: 180,
+    width: 170,
+    height: 170,
     borderRadius: 10,
   },
 });
